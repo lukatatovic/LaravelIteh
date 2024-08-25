@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authorization\APIController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\VoyageController;
 use Illuminate\Http\Request;
@@ -28,6 +29,9 @@ Route::get('/voyages', [VoyageController::class, 'index']);
 Route::get('/voyages/p', [VoyageController::class, 'indexPaginate']);
 Route::get('/voyages/{id}', [VoyageController::class, 'show']);
 
+Route::get('/expenses', [ExpenseController::class, 'index']);
+Route::get('/expenses/{id}', [ExpenseController::class, 'show']);
+
 Route::post('/register', [APIController::class, 'register']);
 Route::post('/login', [APIController::class, 'login']);
 
@@ -40,6 +44,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         ->only(['store', 'update', 'destroy']);
 
     Route::resource('/voyages', VoyageController::class)
+        ->only(['store', 'update', 'destroy']);    
+    
+    Route::resource('/expenses', ExpenseController::class)
         ->only(['store', 'update', 'destroy']);    
 
 
