@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExpenseExport;
 use App\Http\Resources\Expense\ExpenseCollection;
 use App\Http\Resources\Expense\ExpenseResource;
 use App\Models\Expense;
@@ -9,7 +10,7 @@ use App\Models\Friend;
 use App\Models\Voyage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use CSV;
 
 class ExpenseController extends Controller
 {
@@ -27,6 +28,10 @@ class ExpenseController extends Controller
         return response()->json(new ExpenseCollection($expenses));
     }
 
+    public function exportCSV()
+    {
+        return CSV::download(new ExpenseExport, 'expensess.csv');
+    }
 
     /**
      * Show the form for creating a new resource.
