@@ -183,8 +183,15 @@ class ExpenseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Expense $expense)
-    {
+    {   
+        $voyage = Voyage::find($expense->voyage_id);
+        if (is_null($voyage)) {
+            return response()->json('Voyage not found!', 404);
+        }
+        $voyage->total_cost = $voyage->total_cost - $expense->cost;
+        $voyage->save();
         $expense->delete();
+
         return response()->json('Expense removed');
     }
 }
